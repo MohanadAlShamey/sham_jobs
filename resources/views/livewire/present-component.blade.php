@@ -7,51 +7,58 @@
                 <input type="hidden" name="job_id" value="{{$job->id}}">
                 <div class="form-group my-4">
                     <label for="" class="required">الاسم: </label>
-                    <input type="text" required class="form-control" name='name'>
+                    <input type="text" required class="form-control  @error('name') is-invalid @endError" name='name' value="{{old('name')}}">
+                    @error('name') <span class="text-danger">{{$message}}</span> @endError
                 </div>
 
                 <div class="form-group my-4">
                     <label for="" class="required">البريد الإلكتروني : </label>
-                    <input type="email" required class="form-control" name='email'>
+                    <input type="email" required class="form-control @error('email') is-invalid @endError" name='email'  value="{{old('email')}}">
+                    @error('email') <span class="text-danger">{{$message}}</span> @endError
                 </div>
                 @foreach($asks as $ask)
                     @switch($ask->type)
                         @case(\App\Enums\AskTypeEnum::EMAIL->value)
                         <div class="form-group my-4">
                             <label for="" @if($ask->required) class="required" @endif>{{$ask->title}} : </label>
-                            <input type="email" class="form-control" @if($ask->required) required="required"
+                            <input type="email" class="form-control @error($ask->id) is-invalid @endError" value="{{old($key)}}" @if($ask->required) required="required"
                                    @endif   name='{{$ask->id}}'>
+                            @error($ask->id) <span class="text-danger">{{$message}}</span> @endError
                         </div>
                         @break
 
                         @case(\App\Enums\AskTypeEnum::TEXT->value)
                         <div class="form-group my-4">
                             <label for="" @if($ask->required) class="required" @endif>{{$ask->title}} : </label>
-                            <input type="text" class="form-control" @if($ask->required) required="required"
+                            <input type="text" class="form-control @error($ask->id) is-invalid @endError" value="{{old($ask->id)}}"  @if($ask->required) required="required"
                                    @endif  name='{{$ask->id}}'>
+                            @error($ask->id) <span class="text-danger">{{$message}}</span> @endError
                         </div>
                         @break
 
                         @case(\App\Enums\AskTypeEnum::NUMBER->value)
                         <div class="form-group my-4">
                             <label for="" @if($ask->required) class="required" @endif>{{$ask->title}} : </label>
-                            <input type="number" class="form-control" @if($ask->required) required="required"
+                            <input type="number" class="form-control @error($ask->id) is-invalid @endError" value="{{old($ask->id)}}" @if($ask->required) required="required"
                                    @endif   name='{{$ask->id}}'>
+                            @error($ask->id) <span class="text-danger">{{$message}}</span> @endError
                         </div>
                         @break
 
                         @case(\App\Enums\AskTypeEnum::FILE->value)
                         <div class="form-group my-4">
                             <label for="" @if($ask->required) class="required" @endif>{{$ask->title}} : </label>
-                            <input type="file" class="form-control" @if($ask->required) required="required"
+                            <input type="file" class="form-control @error($ask->id) is-invalid @endError" value="{{old($ask->id)}}" @if($ask->required) required="required"
                                    @endif  name='{{$ask->id}}'>
+                            @error($ask->id) <span class="text-danger">{{$message}}</span> @endError
                         </div>
                         @break
                         @case(\App\Enums\AskTypeEnum::DATE->value)
                         <div class="form-group my-4">
                             <label for="" @if($ask->required) class="required" @endif>{{$ask->title}} : </label>
-                            <input type="date" class="form-control" @if($ask->required) required="required"
+                            <input type="date" class="form-control @error($ask->id) is-invalid @endError" value="{{old($ask->id)}}" @if($ask->required) required="required"
                                    @endif  name='{{$ask->id}}'>
+                            @error($ask->id) <span class="text-danger">{{$message}}</span> @endError
                         </div>
                         @break
                         @case(\App\Enums\AskTypeEnum::RADIO->value)

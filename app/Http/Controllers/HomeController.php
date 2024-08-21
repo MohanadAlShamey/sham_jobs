@@ -33,44 +33,61 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
+\DB::beginTransaction();
+try{
+    $group = Group::create([
+        'code' => \Str::random(12),
+        'email' => $request->email,
+        'name' => $request->name,
+        'job_id' => $request->job_id,
+    ]);
+    foreach ($request->except(['_token', 'method', 'email', 'name', 'job_id']) as $key => $value) {
 
-        $group = Group::create([
-            'code' => \Str::random(12),
-            'email' => $request->email,
-            'name' => $request->name,
-            'job_id' => $request->job_id,
-        ]);
-        foreach ($request->except(['_token', 'method', 'email', 'name', 'job_id']) as $key => $value) {
+        $ask = Ask::find($key);
+        if (!$ask && $key !== 'options') {
+            continue;
+        }
+        if ($value instanceof UploadedFile && $ask->type === AskTypeEnum::FILE->value) {
+            // التحقق من نوع الملف
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf']; // قائمة الامتدادات المسموح بها
+            $extension = $value->getClientOriginalExtension();
 
-            $ask = Ask::find($key);
-            if (!$ask && $key !== 'options') {
-                continue;
-            }
-            if ($value instanceof UploadedFile && $ask->type === AskTypeEnum::FILE->value) {
-                $path = $request->file($key)?->store('job/' . $ask->job_id, 'public');
+            if (in_array($extension, $allowedExtensions)) {
+                $path = $value->store('job/' . $ask->job_id, 'public');
                 Answer::create([
                     'answer' => $path,
                     'group_id' => $group->id,
                     'ask_id' => $key,
                 ]);
-            } elseif ($key === 'options') {
-                foreach ($request->options as $subKey => $subVal) {
-                   // $ask = Ask::find($subKey);
-                    Answer::create([
-                        'answer' => is_array($subVal) ? implode(' - ', $subVal) : $subVal,
-                        'group_id' => $group->id,
-                        'ask_id' => $subKey,
-                    ]);
-                }
             } else {
+                \DB::rollBack();
+                // الملف غير مسموح به، يمكنك إضافة رسالة خطأ أو معالجة أخرى هنا
+                return back()->withErrors([$key => 'نوع الملف غير مسموح به.'])->withInput();
+            }
+        } elseif ($key === 'options') {
+            foreach ($request->options as $subKey => $subVal) {
+                // $ask = Ask::find($subKey);
                 Answer::create([
-                    'answer' => $value,
+                    'answer' => is_array($subVal) ? implode(' - ', $subVal) : $subVal,
                     'group_id' => $group->id,
-                    'ask_id' => $key,
+                    'ask_id' => $subKey,
                 ]);
             }
+        } else {
+            Answer::create([
+                'answer' => $value,
+                'group_id' => $group->id,
+                'ask_id' => $key,
+            ]);
         }
-        return to_route('home.index')->with(['success'=>'تم حفظ طلبك بنجاح']);
+    }
+    \DB::commit();
+    return to_route('home.index')->with(['success'=>'تم حفظ طلبك بنجاح']);
+}catch (\Exception | \Error $e){
+    \DB::rollBack();
+    return to_route('home.index')->with(['success'=>'تم حفظ طلبك بنجاح']);
+}
+
     }
 
     /**
