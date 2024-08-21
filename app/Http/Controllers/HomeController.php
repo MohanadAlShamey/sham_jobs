@@ -33,7 +33,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        return to_route('home.index')->with(['success'=>'تم حفظ طلبك بنجاح']);
+
         $group = Group::create([
             'code' => \Str::random(12),
             'email' => $request->email,
