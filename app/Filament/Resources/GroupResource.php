@@ -76,13 +76,13 @@ protected static ?string $label="متقدم";
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('job.name'),
-                Tables\Columns\TextColumn::make('created_at')->since(),
+                Tables\Columns\TextColumn::make('name')->label('اسم المتقدم'),
+                Tables\Columns\TextColumn::make('email')->label('بريد المتقدم'),
+                Tables\Columns\TextColumn::make('job.name')->label('اسم الوظيفة'),
+                Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('job_id')->relationship('job','name')->preload()->label('الوظيفة')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
