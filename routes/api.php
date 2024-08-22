@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function(){
+Route::prefix('v1')->middleware([\App\Http\Middleware\ApiAccessMiddleware::class])->group(function(){
     Route::apiResource('jobs',\App\Http\Controllers\Api\JobController::class)->only('index','show');
+    Route::apiResource('presents',\App\Http\Controllers\Api\PresentController::class)->only('show');
 });

@@ -76,7 +76,9 @@ protected static ?string $label="متقدم";
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('اسم المتقدم'),
+                Tables\Columns\TextColumn::make('first_name')->label('الاسم الأول'),
+                Tables\Columns\TextColumn::make('father_name')->label('اسم الاب'),
+                Tables\Columns\TextColumn::make('last_name')->label('الكنية'),
                 Tables\Columns\TextColumn::make('email')->label('بريد المتقدم'),
                 Tables\Columns\TextColumn::make('job.name')->label('اسم الوظيفة'),
                 Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),

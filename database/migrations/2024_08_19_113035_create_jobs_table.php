@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('city')->nullable();
             $table->longText('info')->nullable();
             $table->boolean('active')->nullable()->default(true);
+            $table->text('filter')->nullable();
             $table->timestamps();
         });
     }

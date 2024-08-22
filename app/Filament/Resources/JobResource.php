@@ -18,8 +18,9 @@ class JobResource extends Resource
     protected static ?string $model = Job::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel="الوظائف";
-    protected static ?string $label="إعلان وظيفة";
+    protected static ?string $navigationLabel = "الوظائف";
+    protected static ?string $label = "إعلان وظيفة";
+
     public static function form(Form $form): Form
     {
         return $form
@@ -29,7 +30,7 @@ class JobResource extends Resource
                     Forms\Components\TextInput::make('city')->label('المدينة')->required(),
                     Forms\Components\RichEditor::make('info')->label('وصف الوظيفة')->required(),
                     Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
-
+                    Forms\Components\Textarea::make('filter')->label('طريقة الفلترة على الذكاء الصناعي'),
                 ])
             ]);
     }

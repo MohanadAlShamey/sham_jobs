@@ -13,11 +13,28 @@ return new class extends Migration {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_id')->constrained()->cascadeOnDelete();
-            $table->string('code');
             $table->string('email')->nullable();
-            $table->string('name')->nullable();
+            $table->string('job_name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->date('birth_date')->nullable();
+
             $table->timestamps();
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('group_id')->constrained()->cascadeOnDelete();
