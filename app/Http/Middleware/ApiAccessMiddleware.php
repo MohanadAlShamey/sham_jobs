@@ -15,7 +15,7 @@ class ApiAccessMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $pass = $request->header('api-password');
+        $pass = $request->header('api-token');
         if ($pass === "sham-job") {
             return $next($request);
         }
