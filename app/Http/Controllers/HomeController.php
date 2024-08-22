@@ -132,7 +132,7 @@ class HomeController extends Controller
     {
         // تحديد مسار المجلد الذي يحتوي على ملفات PDF
 
-        $directory = storage_path('app/public/jobs/' . $id);
+        $directory = storage_path('app/public/job/' . $id);
 
         // التحقق من وجود المجلد
         if (!file_exists($directory)) {
