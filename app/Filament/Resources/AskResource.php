@@ -53,7 +53,9 @@ protected static ?string $navigationLabel="الأسئلة الإفتراضية";
             ->modifyQueryUsing(fn($query) => $query->whereNull('job_id'))
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('السؤال'),
-                Tables\Columns\TextColumn::make('type')->label('السؤال'),
+                Tables\Columns\TextColumn::make('type')
+                    ->formatStateUsing(fn($state)=>AskTypeEnum::tryFrom($state)?->getLabel())
+                    ->label('نوع الإجابة'),
 
             ])
             ->filters([

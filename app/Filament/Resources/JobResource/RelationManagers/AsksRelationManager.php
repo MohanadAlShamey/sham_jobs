@@ -48,7 +48,10 @@ protected static ?string $title='الأسئلة';
         return $table
             ->recordTitleAttribute('title')
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('title')->label('السؤال'),
+                Tables\Columns\TextColumn::make('type')
+                    ->formatStateUsing(fn($state)=>AskTypeEnum::tryFrom($state)?->getLabel())
+                    ->label('نوع الإجابة'),
             ])
             ->filters([
                 //
