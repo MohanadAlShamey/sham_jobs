@@ -42,7 +42,8 @@ protected static ?string $navigationLabel="الأسئلة الإفتراضية";
                     ])->label('نوع الحقل')->required()->live()->inline(),
                     Forms\Components\Repeater::make('options')->schema([
                         Forms\Components\TextInput::make('option')->label('الخيار'),
-                    ])->visible(fn($get) => $get('type') === AskTypeEnum::RADIO->value || $get('type') === AskTypeEnum::CHECKBOX->value)
+                    ])->visible(fn($get) => $get('type') === AskTypeEnum::RADIO->value || $get('type') === AskTypeEnum::CHECKBOX->value),
+                    Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
                 ])
             ]);
     }
@@ -50,12 +51,14 @@ protected static ?string $navigationLabel="الأسئلة الإفتراضية";
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('sort')
             ->modifyQueryUsing(fn($query) => $query->whereNull('job_id'))
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('السؤال'),
                 Tables\Columns\TextColumn::make('type')
                     ->formatStateUsing(fn($state)=>AskTypeEnum::tryFrom($state)?->getLabel())
                     ->label('نوع الإجابة'),
+                Tables\Columns\TextColumn::make('active')->formatStateUsing(fn($state)=>$state?'مفعل':'غير مفعل')->label('الحالة'),
 
             ])
             ->filters([
