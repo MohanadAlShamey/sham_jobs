@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
@@ -124,5 +125,41 @@ class HomeController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function downloadResumes($id)
+    {
+        // تحديد مسار المجلد الذي يحتوي على ملفات PDF
+
+        $directory = storage_path('app/public/jobs/' . $id);
+
+        // التحقق من وجود المجلد
+        if (!file_exists($directory)) {
+            return response()->json(['error' => 'Directory not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // إنشاء ملف مؤقت لتضمين جميع ملفات PDF في ملف واحد
+        $zipFileName = 'resumes' . $id . '.zip';
+        $zipFilePath = storage_path("app/public/{$zipFileName}");
+
+        // إنشاء ملف ZIP
+        $zip = new \ZipArchive();
+        if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
+            foreach ($files as $name => $file) {
+                if (!$file->isDir()) {
+                    $filePath = $file->getRealPath();
+                    $relativePath = substr($filePath, strlen($directory) + 1);
+                    $zip->addFile($filePath, $relativePath);
+                }
+            }
+            $zip->close();
+        } else {
+            return response()->json(['error' => 'Failed to create zip file'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // تحميل ملف ZIP
+        return response()->download($zipFilePath, $zipFileName)->deleteFileAfterSend(true);
     }
 }
