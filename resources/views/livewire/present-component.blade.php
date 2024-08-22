@@ -31,7 +31,7 @@
                     <label for="" class="required">اسم الأب كما هو وارد في بطاقة الهوية الشخصية أو جواز السفر
                         : </label>
                     <input type="text" required class="form-control  @error('father_name') is-invalid @endError"
-                           name='name' value="{{old('father_name')}}">
+                           name='father_name' value="{{old('father_name')}}">
                     @error('father_name') <span class="text-danger">{{$message}}</span> @endError
                 </div>
 
@@ -39,7 +39,7 @@
                     <label for="" class="required">الكنية كما هي واردة في بطاقة الهوية الشخصية أو جواز السفر
                         : </label>
                     <input type="text" required class="form-control  @error('last_name') is-invalid @endError"
-                           name='name' value="{{old('last_name')}}">
+                           name='last_name' value="{{old('last_name')}}">
                     @error('last_name') <span class="text-danger">{{$message}}</span> @endError
                 </div>
 
@@ -47,7 +47,7 @@
                     <label for="" class="required">تاريخ الميلاد
                         : </label>
                     <input type="date" required class="form-control  @error('birth_date') is-invalid @endError"
-                           name='name' value="{{old('birth_date')}}">
+                           name='birth_date' value="{{old('birth_date')}}">
                     @error('birth_date') <span class="text-danger">{{$message}}</span> @endError
                 </div>
 
