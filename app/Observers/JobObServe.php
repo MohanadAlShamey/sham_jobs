@@ -20,6 +20,7 @@ class JobObServe
                 'required' => $ask->required,
                 'options' => $ask->options,
                 'type' => $ask->type,
+                'active'=>$ask->active
             ]);
         }
     }

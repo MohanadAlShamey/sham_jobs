@@ -17,7 +17,7 @@ class PresentComponent extends Component
     public function render()
     {
         return view('livewire.present-component',[
-            'asks'=>$this->job->asks,
+            'asks'=>$this->job->asks()->where('active',true)->orderBy('sort')->get(),
         ]);
     }
 }
