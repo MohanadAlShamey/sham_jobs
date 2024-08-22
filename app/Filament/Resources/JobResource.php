@@ -50,6 +50,7 @@ class JobResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('download')->url(fn($record)=>route('download-resumes',$record->id),true)->label('تحميل جميع المرفقات'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

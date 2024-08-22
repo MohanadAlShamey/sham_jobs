@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/home',\App\Http\Controllers\HomeController::class);
 Route::get('/',[\App\Http\Controllers\HomeController::class,'index']);
-Route::get('/resume/{id}',[\App\Http\Controllers\HomeController::class,'downloadResumes'])->middleware('auth:web');
+Route::get('/resume/{id}',[\App\Http\Controllers\HomeController::class,'downloadResumes'])->middleware('auth:web')->name('download-resumes');
