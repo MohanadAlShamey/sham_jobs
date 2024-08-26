@@ -51,6 +51,7 @@ class JobResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('download')->url(fn($record)=>route('download-resumes',$record->id),true)->label('تحميل جميع المرفقات')->button()->success(),
+                Tables\Actions\Action::make('exxport')->url(fn($record)=>route('csv-export',$record->id),true)->label('تصدير إلى CSV')->button()->success(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

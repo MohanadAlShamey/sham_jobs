@@ -9,6 +9,8 @@ use App\Models\Group;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use League\Csv\Writer;
+use SplTempFileObject;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
@@ -161,5 +163,67 @@ class HomeController extends Controller
 
         // تحميل ملف ZIP
         return response()->download($zipFilePath, $zipFileName)->deleteFileAfterSend(true);
+    }
+
+    public function exportCsv($id)
+    {
+        $job = Job::findOrFail($id);
+
+
+        // إنشاء ملف CSV
+        $csv = Writer::createFromFileObject(new SplTempFileObject());
+        $csv->setOutputBOM(Writer::BOM_UTF8);
+        $csv->setDelimiter(',');
+        $csv->setEnclosure('"');
+        $csv->setNewline("\n");
+
+
+        // إضافة الرؤوس
+        $headers = [
+            'الوظيفة',
+            'اسم المتقدم',
+            'اسم الأب',
+            'تاريخ الميلاد',
+            'التوصيف الوظيفي'
+        ];
+        $questions = $job->asks->pluck('title')->unique()->toArray();
+        $headers = array_merge($headers, $questions);
+        $csv->insertOne($headers);
+
+        foreach ($job->groups as $key => $group) {
+            $row = [];
+            $row[] = $job->title;
+            $row[] = $group->first_name . ' ' . $group->last_name;
+            $row[] = $group->father_name;
+            $row[] = $group->birth_date;
+            $row[] = $group->job_name;
+            foreach ($job->asks as $ask) {
+                $answers = Answer::where(['answers.ask_id' => $ask->id, 'group_id' => $group->id])->pluck('answer')->toArray();
+                $row = array_merge($row, $answers);
+            }
+            $csv->insertOne($row);
+
+        }
+
+        // إضافة البيانات
+        /*  foreach ($groupedData as $groupName => $groupAnswers) {
+              $row = [
+                  $groupAnswers->first()->group->job->name, // اسم الوظيفة
+                  $groupName, // اسم المتقدم
+              ];
+
+              $questionAnswers = [];
+              foreach ($questions as $question) {
+                  $answer = $groupAnswers->firstWhere('ask.question', $question);
+                  $questionAnswers[] = $answer ? $answer->answer : '';
+              }
+
+              $row = array_merge($row, $questionAnswers);
+              $csv->insertOne($row);
+          }*/
+
+        // تعيين أسماء الرؤوس وتصدير الملف
+        $csv->output('job_details.csv');
+
     }
 }

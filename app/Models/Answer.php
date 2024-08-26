@@ -14,4 +14,8 @@ class Answer extends Model
     {
         return $this->belongsTo(Ask::class);
     }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 }
