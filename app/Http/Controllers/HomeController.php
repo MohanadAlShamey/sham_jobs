@@ -67,7 +67,7 @@ class HomeController extends Controller
                         ]);
                     } else {
                         \DB::rollBack();
-                        // الملف غير مسموح به، يمكنك إضافة رسالة خطأ أو معالجة أخرى هنا
+
                         return back()->withErrors([$key => 'نوع الملف غير مسموح به.'])->withInput();
                     }
                 } elseif ($key === 'options') {
@@ -91,7 +91,7 @@ class HomeController extends Controller
             return to_route('home.index')->with(['success' => 'تم حفظ طلبك بنجاح']);
         } catch (\Exception | \Error $e) {
             \DB::rollBack();
-            return to_route('home.index')->with(['success' => 'تم حفظ طلبك بنجاح']);
+            return to_route('home.index')->with(['error' => 'خطأ في الإرسال ' . $e->getMessage()]);
         }
 
     }
