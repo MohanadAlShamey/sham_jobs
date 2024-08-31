@@ -63,8 +63,7 @@ class DatabaseSeeder extends Seeder
             'type' => AskTypeEnum::RADIO->value,
             'required' => true,
             'options' => [
-                ['option' => ' منطقة ادلب وريف حلب الغربي
-'],
+                ['option' => ' منطقة ادلب وريف حلب الغربي'],
                 ['option' => 'منطقة عفرين'],
                 ['option' => 'منطقة نبع السلام'],
                 ['option' => 'منطقة الباب'],

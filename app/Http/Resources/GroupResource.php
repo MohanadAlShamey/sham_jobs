@@ -15,44 +15,13 @@ class GroupResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-
-
-
-
-
             'email'=>$this->email,
             'id'=>$this->id,
-            "fixed_ask"=>[
-                [
-                    'ask'=>'الاسم الأول',
-                    'answer'=>$this->first_name
-                ],
-                [
-                    'ask'=>'اسم الاب',
-                    'answer'=>$this->father_name
-                ],
-                [
-                    'ask'=>'الكنية',
-                    'answer'=>$this->last_name
-                ],
-
-                [
-                    'ask'=>'المسمى الوظيفي',
-                    'answer'=>$this->job_name
-                ],
-
-                [
-                    'ask'=>'البريد الإلكتروني',
-                    'answer'=>$this->email
-                ],
-                [
-                    'ask'=>'تاريخ الميلاد',
-                    'answer'=>$this->birth_date
-                ],
-
-
-
-            ],
+            'full_name'=> $this->first_name.' '. $this->father_name.' '.$this->last_name,
+            'area'=>$this->area,
+            'address'=>$this->address,
+            'cv'=>$this->cv,
+            'certificate'=>$this->certificate,
             'answers'=>AnswersResource::collection($this->answers),
         ];
     }

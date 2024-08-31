@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AskTypeEnum;
+use App\Http\Requests\CreateGroupRequest;
 use App\Models\Answer;
 use App\Models\Ask;
 use App\Models\Group;
@@ -34,7 +35,7 @@ class HomeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateGroupRequest $request)
     {
         \DB::beginTransaction();
         try {
@@ -46,8 +47,17 @@ class HomeController extends Controller
                 'job_name' => $request->job_name,
                 'birth_date' => $request->birth_date,
                 'job_id' => $request->job_id,
+                'area'=>$request->area,
+                'address'=>$request->address,
+                'cv'=>$request->file('cv')?->store('job/'.$request->job_id.'/cvs' , 'public'),
+                'certificate'=>$request->file('certificate')?->store('job/'.$request->job_id.'/certificate' , 'public'),
             ]);
-            foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date']) as $key => $value) {
+            foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date',
+                'area',
+'address',
+'cv',
+'certificate',
+                ]) as $key => $value) {
 
                 $ask = Ask::find($key);
                 if ($ask->required && empty($value)) {

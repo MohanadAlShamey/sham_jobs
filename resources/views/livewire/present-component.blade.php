@@ -51,6 +51,63 @@
                     @error('birth_date') <span class="text-danger">{{$message}}</span> @endError
                 </div>
 
+                <div class="form-group my-4">
+                    <label for="" class="required h6">الشهادة العلمية
+                        : </label>
+                    <input type="file" accept="file|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpg,image/jpeg,application/pdf"  required class="form-control  @error('certificate') is-invalid @endError"
+                           name='certificate' value="{{old('certificate')}}">
+                    @error('certificate') <span class="text-danger">{{$message}}</span> @endError
+                </div>
+
+                <div class="form-group my-4">
+                    <label for="" class="required h6">السيرة الذاتية
+                        : </label>
+                    <input type="file" accept="file|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpg,image/jpeg,application/pdf"  required class="form-control  @error('cv') is-invalid @endError"
+                           name='cv' value="{{old('cv')}}">
+                    @error('cv') <span class="text-danger">{{$message}}</span> @endError
+                </div>
+
+                <div class="form-group my-4">
+                    <label for="" class="required h6">منطفة السكن
+                        : </label>
+                    <label  for="address-1" class="form-check-label d-block "
+                            dir="rtl">
+                        <input id="address-1" type="radio" checked value="منطقة ادلب وريف حلب الغربي"  name='area'>
+                        <span class="d-inline-block small">منطقة ادلب وريف حلب الغربي</span>
+                    </label>
+
+                    <label  for="address-2" class="form-check-label d-block "
+                            dir="rtl">
+                        <input id="address-2" type="radio"  value="منطقة عفرين"  name='area'>
+                        <span class="d-inline-block small"> منطقة عفرين</span>
+                    </label>
+
+                    <label  for="address-3" class="form-check-label d-block "
+                            dir="rtl">
+                        <input id="address-3" type="radio"  value="منطقة نبع السلام"  name='area'>
+                        <span class="d-inline-block small"> منطقة نبع السلام</span>
+                    </label>
+
+                    <label  for="address-4" class="form-check-label d-block "
+                            dir="rtl">
+                        <input id="address-4" type="radio"  value="منطقة الباب"  name='area'>
+                        <span class="d-inline-block small"> منطقة الباب</span>
+                    </label>
+
+                    <label  for="address-5" class="form-check-label d-block "
+                            dir="rtl">
+                        <input id="address-5" type="radio"  value="منطقة جرابلس"  name='area'>
+                        <span class="d-inline-block small"> منطقة جرابلس</span>
+                    </label>
+                    @error('area') <span class="text-danger">{{$message}}</span> @endError
+                </div>
+                <div class="form-group my-4">
+                    <label for="" class="required h6">العنوان التفصيلي على الشكل التالي ( المدينة أو البلدة أو القرية مع أقرب علامة للعنوان )
+                        : </label>
+                    <input type="text"  required class="form-control  @error('address') is-invalid @endError"
+                           name='address' value="{{old('address')}}">
+                    @error('address') <span class="text-danger">{{$message}}</span> @endError
+                </div>
 
                 @foreach($asks as $ask)
                     @switch($ask->type)

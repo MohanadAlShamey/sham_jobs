@@ -76,10 +76,10 @@ protected static ?string $label="متقدم";
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('first_name')->label('الاسم الأول'),
-                Tables\Columns\TextColumn::make('father_name')->label('اسم الاب'),
-                Tables\Columns\TextColumn::make('last_name')->label('الكنية'),
-                Tables\Columns\TextColumn::make('email')->label('بريد المتقدم'),
+                Tables\Columns\TextColumn::make('first_name')->label('الاسم الأول')->searchable(),
+                Tables\Columns\TextColumn::make('father_name')->label('اسم الاب')->searchable(),
+                Tables\Columns\TextColumn::make('last_name')->label('الكنية')->searchable(),
+                Tables\Columns\TextColumn::make('email')->label('بريد المتقدم')->searchable(),
                 Tables\Columns\TextColumn::make('job.name')->label('اسم الوظيفة'),
                 Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),
             ])
@@ -87,9 +87,11 @@ protected static ?string $label="متقدم";
                 Tables\Filters\SelectFilter::make('job_id')->relationship('job','name')->preload()->label('الوظيفة')
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make()->button(),
+//                Tables\Actions\DeleteAction::make(),
+            Tables\Actions\Action::make('cv')->url(fn($record)=>asset('storage/'.$record->cv),true)->label('السيرة الذاتية')->button(),
+            Tables\Actions\Action::make('cert')->url(fn($record)=>asset('storage/'.$record->certificate),true)->label('الشهادة العلمية')->button(),
+                Tables\Actions\ViewAction::make()->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
