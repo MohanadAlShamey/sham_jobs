@@ -47,10 +47,10 @@ class HomeController extends Controller
                 'birth_date' => $request->birth_date,
                 'job_id' => $request->job_id,
             ]);
-            foreach ($request->except(['_token', 'method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date']) as $key => $value) {
+            foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date']) as $key => $value) {
 
                 $ask = Ask::find($key);
-                if ($ask?->required && empty($value)) {
+                if ($ask->required && empty($value)) {
                     \DB::rollBack();
                     return back()->withInput()->withErrors([$key => 'الحقل مطلوب']);
                 }
@@ -69,12 +69,15 @@ class HomeController extends Controller
                             'group_id' => $group->id,
                             'ask_id' => $key,
                         ]);
-                    } else {
+                    }
+                    else {
                         \DB::rollBack();
 
                         return back()->withErrors([$key => 'نوع الملف غير مسموح به.'])->withInput();
                     }
-                } elseif ($key === 'options') {
+                }
+                //
+                elseif ($key === 'options') {
                     foreach ($request->options as $subKey => $subVal) {
                         // $ask = Ask::find($subKey);
                         Answer::create([
@@ -83,7 +86,9 @@ class HomeController extends Controller
                             'ask_id' => $subKey,
                         ]);
                     }
-                } else {
+                }
+                //
+                else {
                     Answer::create([
                         'answer' => $value,
                         'group_id' => $group->id,
@@ -180,15 +185,14 @@ class HomeController extends Controller
         $csv->setDelimiter(',');
         $csv->setEnclosure('"');
         $csv->setNewline("\n");
-
-
         // إضافة الرؤوس
         $headers = [
             'الوظيفة',
             'اسم المتقدم',
             'اسم الأب',
             'تاريخ الميلاد',
-            'التوصيف الوظيفي'
+            'التوصيف الوظيفي',
+            'البريد الإلكتروني'
         ];
         $questions = $job->asks->pluck('title')->unique()->toArray();
         $headers = array_merge($headers, $questions);
@@ -196,15 +200,18 @@ class HomeController extends Controller
 
         foreach ($job->groups as $key => $group) {
             $row = [];
-            $row[] = $job->title;
+            $row[] = $job->name;
             $row[] = $group->first_name . ' ' . $group->last_name;
             $row[] = $group->father_name;
             $row[] = $group->birth_date;
             $row[] = $group->job_name;
+            $row[] = $group->email;
             foreach ($job->asks as $ask) {
                 $answers = Answer::where(['answers.ask_id' => $ask->id, 'group_id' => $group->id])->pluck('answer')->toArray();
+
                 $row = array_merge($row, $answers);
             }
+
             $csv->insertOne($row);
 
         }
