@@ -32,10 +32,11 @@
     </style>
 </head>
 <body>
-<div id="liveToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+<div id="liveToast" class="toast align-items-center @if(session()->has('success')) text-bg-primary @elseif(session()->has('error')) text-bg-danger @endif border-0" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex justify-content-between">
         <div class="toast-body">
             {{session()->get('success')}}
+            {{session()->get('error')}}
         </div>
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
@@ -47,7 +48,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-@if(session()->has('success'))
+@if(session()->has('success') || session()->has('error'))
     <script>
 
         const toastLiveExample = document.getElementById('liveToast')

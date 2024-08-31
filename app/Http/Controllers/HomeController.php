@@ -47,9 +47,13 @@ class HomeController extends Controller
                 'birth_date' => $request->birth_date,
                 'job_id' => $request->job_id,
             ]);
-            foreach ($request->except(['_token', 'method', 'email', 'name', 'job_id']) as $key => $value) {
+            foreach ($request->except(['_token', 'method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date']) as $key => $value) {
 
                 $ask = Ask::find($key);
+                if ($ask?->required && empty($value)) {
+                    \DB::rollBack();
+                    return back()->withInput()->withErrors([$key => 'الحقل مطلوب']);
+                }
                 if (!$ask && $key !== 'options') {
                     continue;
                 }
@@ -91,7 +95,7 @@ class HomeController extends Controller
             return to_route('home.index')->with(['success' => 'تم حفظ طلبك بنجاح']);
         } catch (\Exception | \Error $e) {
             \DB::rollBack();
-            return to_route('home.index')->with(['error' => 'خطأ في الإرسال ' . $e->getMessage()]);
+            return back()->with(['error' => 'خطأ في الإرسال ' . $e->getMessage().'-'.$e->getLine()])->withInput();
         }
 
     }
