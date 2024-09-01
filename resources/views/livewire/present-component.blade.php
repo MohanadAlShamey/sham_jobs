@@ -99,9 +99,9 @@
                         <input id="address-5" type="radio"  value="منطقة جرابلس"  name='area'>
                         <span class="d-inline-block small"> منطقة جرابلس</span>
                     </label>
-                    <label  for="address-5" class="form-check-label d-block "
+                    <label  for="address-6" class="form-check-label d-block "
                             dir="rtl">
-                        <input id="address-5" type="radio"  value=" منطقة درع الفرات"  name='area'>
+                        <input id="address-6" type="radio"  value=" منطقة درع الفرات"  name='area'>
                         <span class="d-inline-block small"> منطقة درع الفرات</span>
                     </label>
                     @error('area') <span class="text-danger">{{$message}}</span> @endError
