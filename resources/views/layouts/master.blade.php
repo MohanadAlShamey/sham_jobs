@@ -30,6 +30,144 @@
         }
 
     </style>
+    <style>
+        /* تحسين تخطيط الجدول */
+        .table {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .table thead th {
+            background-color: #e52b18; /* لون الخلفية للرأس */
+            color: #fff; /* لون النص للرأس */
+            border-bottom: 2px solid #d4d4d4; /* تحديث لون الحدود */
+            padding: 15px;
+            text-transform: uppercase; /* تحويل النص إلى أحرف كبيرة */
+            letter-spacing: 1px; /* تباعد الأحرف */
+        }
+
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* تظليل عند التمرير فوق الصف */
+        .table tbody tr:hover {
+            background-color: #f9f9f9; /* لون أكثر نعومة عند التمرير */
+            transition: background-color 0.3s ease;
+        }
+
+        /* تصميم زر التقديم */
+        .btn-primary {
+            background-color: #007BFF; /* تحديث لون الخلفية للأزرار */
+            border-color: #007BFF;
+            color: #fff; /* لون النص للأزرار */
+            padding: 8px 16px; /* تكبير حجم الأزرار قليلاً */
+            font-size: 14px;
+            border-radius: 5px; /* جعل الزر دائري الأطراف */
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+        /* تصميم الروابط */
+        .table a.nav-link {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .table a.nav-link:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+        /* تحسين النص */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* تحسين رأس الصفحة */
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+            position: relative;
+        }
+
+        h1::after {
+            content: "";
+            width: 100px;
+            height: 4px;
+            background-color: #e52b18;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #555;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        h2 a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #444;
+            font-weight: 500;
+            border-bottom: 2px solid #e52b18;
+            display: inline-block;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .table {
+                font-size: 14px;
+            }
+
+            .table thead th, .table tbody td {
+                padding: 10px;
+            }
+
+            .btn-primary {
+                padding: 5px;
+                font-size: 12px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+            }
+       </style>
 </head>
 <body>
 <div id="liveToast" class="toast align-items-center @if(session()->has('success')) text-bg-primary @elseif(session()->has('error')) text-bg-danger @endif border-0" role="alert" aria-live="assertive" aria-atomic="true">
