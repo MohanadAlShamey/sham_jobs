@@ -52,7 +52,16 @@ protected static ?string $label="متقدم";
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema(function ($record) {
-            $list = [];
+            $list = [
+                TextEntry::make('first_name')->label('الاسم '),
+                TextEntry::make('father_name')->label('اسم الأب '),
+                TextEntry::make('last_name')->label('الكنية '),
+                TextEntry::make('birth_date')->label('تاريخ الميلاد '),
+                TextEntry::make('email')->label('البريد الإلكتروني'),
+                TextEntry::make('job_name')->label('المسمى الوظيفي'),
+                TextEntry::make('area')->label('منطقة الإقامة'),
+                TextEntry::make('address')->label('العنوان التفصيلي'),
+            ];
             foreach ($record->answers as $answer) {
                 if ($answer->ask->type === AskTypeEnum::FILE->value) {
 

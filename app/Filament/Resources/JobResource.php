@@ -31,6 +31,7 @@ class JobResource extends Resource
                     Forms\Components\RichEditor::make('info')->label('وصف الوظيفة')->required(),
                     Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
                     Forms\Components\Textarea::make('filter')->label('طريقة الفلترة على الذكاء الصناعي'),
+                    Forms\Components\DatePicker::make('end_date')->label('تاريخ نهاية التقديم / إغلاق الرابط')->required()->minDate(now()->addDay()),
                 ])
             ]);
     }
@@ -42,6 +43,7 @@ class JobResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('اسم الوظيفة'),
                 Tables\Columns\TextColumn::make('city')->label('المدينة'),
                 Tables\Columns\ToggleColumn::make('active')->label('حالة التفعيل'),
+                Tables\Columns\TextColumn::make('groups_count')->label('عدد المتقدمين'),
             ])
             ->filters([
                 //

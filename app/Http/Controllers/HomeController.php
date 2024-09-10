@@ -49,8 +49,9 @@ class HomeController extends Controller
                 'job_id' => $request->job_id,
                 'area'=>$request->area,
                 'address'=>$request->address,
-                'cv'=>$request->file('cv')?->store('job/'.$request->job_id.'/cvs' , 'public'),
-                'certificate'=>$request->file('certificate')?->store('job/'.$request->job_id.'/certificate' , 'public'),
+
+                'cv'=>$request->file('cv')?->storeAs('job/'.$request->job_id.'/cvs' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}",'public'),
+                'certificate'=>$request->file('certificate')?->storeAs('job/'.$request->job_id.'/certificate' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}",'public'),
             ]);
             foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date',
                 'area',
@@ -60,7 +61,7 @@ class HomeController extends Controller
                 ]) as $key => $value) {
 
                 $ask = Ask::find($key);
-                if ($ask->required && empty($value)) {
+                if ($ask?->required==true && empty($value)) {
                     \DB::rollBack();
                     return back()->withInput()->withErrors([$key => 'الحقل مطلوب']);
                 }
@@ -73,7 +74,7 @@ class HomeController extends Controller
                     $extension = $value->getClientOriginalExtension();
 
                     if (in_array($extension, $allowedExtensions)) {
-                        $path = $value->store('job/' . $ask->job_id, 'public');
+                        $path = $value->storeAs('job/' . $ask->job_id, date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$extension}",'public');
                         Answer::create([
                             'answer' => $path,
                             'group_id' => $group->id,
@@ -120,7 +121,11 @@ class HomeController extends Controller
      */
     public function show(string $id)
     {
-        $job = Job::find($id);
+        $job = Job::where(['id'=>$id,'active' => true])->where('end_date','>=',now()->startOfDay())->first();
+        if(!$job){
+            abort(404,'Not Found Job');
+        }
+
         return view('show', compact('job'));
     }
 
@@ -151,17 +156,17 @@ class HomeController extends Controller
 
     public function downloadResumes($id)
     {
-        // تحديد مسار المجلد الذي يحتوي على ملفات PDF
-
-        $directory = storage_path('app/public/job/' . $id);
+        $job=Job::find($id);
+        // تحديد مسار المجلد الذي يحتوي على الملفات
+        $directory = storage_path('app/public/job/' .$id);
 
         // التحقق من وجود المجلد
         if (!file_exists($directory)) {
             return response()->json(['error' => 'Directory not found'], Response::HTTP_NOT_FOUND);
         }
 
-        // إنشاء ملف مؤقت لتضمين جميع ملفات PDF في ملف واحد
-        $zipFileName = 'resumes' . $id . '.zip';
+        // إنشاء ملف مؤقت لتضمين جميع الملفات في ملف واحد
+        $zipFileName =  $job?->name.'_'.$id.'_'.date('y_m_d_h_i'). '.zip';
         $zipFilePath = storage_path("app/public/{$zipFileName}");
 
         // إنشاء ملف ZIP
@@ -202,7 +207,9 @@ class HomeController extends Controller
             'اسم الأب',
             'تاريخ الميلاد',
             'التوصيف الوظيفي',
-            'البريد الإلكتروني'
+            'البريد الإلكتروني',
+            'منطقة السكن',
+            'العنوان التفصيلي'
         ];
         $questions = $job->asks->pluck('title')->unique()->toArray();
         $headers = array_merge($headers, $questions);
@@ -216,6 +223,8 @@ class HomeController extends Controller
             $row[] = $group->birth_date;
             $row[] = $group->job_name;
             $row[] = $group->email;
+            $row[] = $group->area;
+            $row[] = $group->address;
             foreach ($job->asks as $ask) {
                 $answers = Answer::where(['answers.ask_id' => $ask->id, 'group_id' => $group->id])->pluck('answer')->toArray();
 
