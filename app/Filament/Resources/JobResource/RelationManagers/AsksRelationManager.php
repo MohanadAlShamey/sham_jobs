@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\JobResource\RelationManagers;
 
 use App\Enums\AskTypeEnum;
+use App\Enums\JobTypeEnum;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -40,6 +41,7 @@ protected static ?string $title='الأسئلة';
                         Forms\Components\TextInput::make('option')->label('الخيار'),
                     ])->visible(fn($get) => $get('type') === AskTypeEnum::RADIO->value || $get('type') === AskTypeEnum::CHECKBOX->value),
                     Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
+
                 ])
             ]);
     }
@@ -55,12 +57,16 @@ protected static ?string $title='الأسئلة';
                     ->formatStateUsing(fn($state)=>AskTypeEnum::tryFrom($state)?->getLabel())
                     ->label('نوع الإجابة'),
                 Tables\Columns\TextColumn::make('active')->formatStateUsing(fn($state)=>$state?'مفعل':'غير مفعل')->label('الحالة'),
+
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()->mutateFormDataUsing(function($livewire,$data){
+                    $data['job_type']=$livewire->ownerRecord->type;
+                    return $data;
+                }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

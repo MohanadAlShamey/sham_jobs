@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AskTypeEnum;
+use App\Enums\JobTypeEnum;
 use App\Filament\Resources\AskResource\Pages;
 use App\Filament\Resources\AskResource\RelationManagers;
 use App\Models\Ask;
@@ -24,27 +25,35 @@ protected static ?string $navigationLabel="الأسئلة الإفتراضية";
     {
         return $form
             ->schema([
-                Forms\Components\Grid::make(1)->schema([
-                    Forms\Components\TextInput::make('title')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\Toggle::make('required')->label('الحقل مطلوب'),
-                    Forms\Components\Radio::make('type')->options([
-                        AskTypeEnum::TEXT->value => AskTypeEnum::TEXT->value,
-                        AskTypeEnum::EMAIL->value => AskTypeEnum::EMAIL->value,
-                        AskTypeEnum::DATE->value => AskTypeEnum::DATE->value,
+              Forms\Components\Section::make('الأسئلة الإفتراضية')->schema([
+                  Forms\Components\Grid::make(1)->schema([
+                      Forms\Components\TextInput::make('title')
+                          ->required()
+                          ->maxLength(255),
+                      Forms\Components\Select::make('job_type')->options([
+                          JobTypeEnum::BOTH->value => JobTypeEnum::BOTH->getLabel(),
+                          JobTypeEnum::MANAGER->value => JobTypeEnum::MANAGER->getLabel(),
+                          JobTypeEnum::SERVICE->value => JobTypeEnum::SERVICE->getLabel(),
+                      ])->default(JobTypeEnum::BOTH->value)->required(),
+                      Forms\Components\Toggle::make('required')->label('الحقل مطلوب'),
+                      Forms\Components\Radio::make('type')->options([
+                          AskTypeEnum::TEXT->value => AskTypeEnum::TEXT->value,
+                          AskTypeEnum::EMAIL->value => AskTypeEnum::EMAIL->value,
+                          AskTypeEnum::DATE->value => AskTypeEnum::DATE->value,
 
-                        AskTypeEnum::NUMBER->value => AskTypeEnum::NUMBER->value,
-                        AskTypeEnum::FILE->value => AskTypeEnum::FILE->value,
-                        AskTypeEnum::RADIO->value => AskTypeEnum::RADIO->value,
-                        AskTypeEnum::CHECKBOX->value => AskTypeEnum::CHECKBOX->value,
+                          AskTypeEnum::NUMBER->value => AskTypeEnum::NUMBER->value,
+                          AskTypeEnum::FILE->value => AskTypeEnum::FILE->value,
+                          AskTypeEnum::RADIO->value => AskTypeEnum::RADIO->value,
+                          AskTypeEnum::CHECKBOX->value => AskTypeEnum::CHECKBOX->value,
 
-                    ])->label('نوع الحقل')->required()->live()->inline(),
-                    Forms\Components\Repeater::make('options')->schema([
-                        Forms\Components\TextInput::make('option')->label('الخيار'),
-                    ])->visible(fn($get) => $get('type') === AskTypeEnum::RADIO->value || $get('type') === AskTypeEnum::CHECKBOX->value),
-                    Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
-                ])
+                      ])->label('نوع الحقل')->required()->live()->inline(),
+                      Forms\Components\Repeater::make('options')->schema([
+                          Forms\Components\TextInput::make('option')->label('الخيار'),
+                      ])->visible(fn($get) => $get('type') === AskTypeEnum::RADIO->value || $get('type') === AskTypeEnum::CHECKBOX->value),
+                      Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
+
+                  ])
+              ])
             ]);
     }
 

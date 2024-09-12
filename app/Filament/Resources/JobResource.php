@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\JobTypeEnum;
 use App\Filament\Resources\JobResource\Pages;
 use App\Filament\Resources\JobResource\RelationManagers;
 use App\Models\Job;
@@ -32,6 +33,10 @@ class JobResource extends Resource
                     Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
                     Forms\Components\Textarea::make('filter')->label('طريقة الفلترة على الذكاء الصناعي'),
                     Forms\Components\DatePicker::make('end_date')->label('تاريخ نهاية التقديم / إغلاق الرابط')->required()/*->minDate(now()->addDay())*/,
+                    Forms\Components\Select::make('type')->options([
+                        JobTypeEnum::MANAGER->value => JobTypeEnum::MANAGER->getLabel(),
+                        JobTypeEnum::SERVICE->value => JobTypeEnum::SERVICE->getLabel(),
+                    ])->default(JobTypeEnum::MANAGER->value)->required()
                 ])
             ]);
     }

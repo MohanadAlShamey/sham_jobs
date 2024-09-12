@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\JobTypeEnum;
 use App\Models\Ask;
 use App\Models\Job;
 
@@ -12,7 +13,7 @@ class JobObServe
      */
     public function created(Job $job): void
     {
-        $asks = Ask::whereNull('job_id')->get();
+        $asks = Ask::whereNull('job_id')->where(fn($query) => $query->where('job_type', JobTypeEnum::BOTH->value)->orWhere('job_type', $job->type))->get();
         foreach ($asks as $ask) {
             Ask::create([
                 'job_id' => $job->id,
@@ -20,7 +21,8 @@ class JobObServe
                 'required' => $ask->required,
                 'options' => $ask->options,
                 'type' => $ask->type,
-                'active'=>$ask->active
+                'job_type' => $job->type,
+                'active' => $ask->active
             ]);
         }
     }
