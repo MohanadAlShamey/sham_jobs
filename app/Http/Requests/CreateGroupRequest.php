@@ -28,7 +28,7 @@ class CreateGroupRequest extends FormRequest
             'father_name'=>'required',
             'area'=>'required',
             'address'=>'required',
-            'cv'=>'file|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpg,image/jpeg,application/pdf'
+            'cv'=>'nullable|file|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpg,image/jpeg,application/pdf'
         ];
     }
 }

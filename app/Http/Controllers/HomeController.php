@@ -50,8 +50,8 @@ class HomeController extends Controller
                 'area'=>$request->area,
                 'address'=>$request->address,
 
-                'cv'=>$request->file('cv')?->storeAs('job/'.$request->job_id.'/cvs' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}",'public'),
-                'certificate'=>$request->file('certificate')?->storeAs('job/'.$request->job_id.'/certificate' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}",'public'),
+                'cv'=>$request->hasFile('cv')?$request->file('cv')?->storeAs('job/'.$request->job_id.'/cvs' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}",'public'):null,
+                'certificate'=>$request->hasFile('certificate')?$request->file('certificate')?->storeAs('job/'.$request->job_id.'/certificate' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}",'public'):null,
             ]);
             foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date',
                 'area',

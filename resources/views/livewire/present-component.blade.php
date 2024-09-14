@@ -50,6 +50,8 @@
                            name='birth_date' value="{{old('birth_date')}}">
                     @error('birth_date') <span class="text-danger">{{$message}}</span> @endError
                 </div>
+@if($job->type==\App\Enums\JobTypeEnum::MANAGER->value)
+
 
                 <div class="form-group my-4">
                     <label for="" class="required h6">الشهادة العلمية
@@ -66,7 +68,7 @@
                            name='cv' value="{{old('cv')}}">
                     @error('cv') <span class="text-danger">{{$message}}</span> @endError
                 </div>
-
+                @endif
                 <div class="form-group my-4">
                     <label for="" class="required h6">منطفة السكن
                         : </label>
