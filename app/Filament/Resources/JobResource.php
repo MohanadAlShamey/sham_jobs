@@ -30,6 +30,8 @@ class JobResource extends Resource
                     Forms\Components\TextInput::make('name')->label('اسم الوظيفة')->required(),
                     Forms\Components\TextInput::make('city')->label('المدينة')->required(),
                     Forms\Components\RichEditor::make('info')->label('وصف الوظيفة')->required(),
+                    Forms\Components\TextInput::make('code')->label('كود الوظيفة')->required(),
+                    Forms\Components\TextInput::make('manager')->label('المدير المباشر')->required(),
                     Forms\Components\Toggle::make('active')->label('حالة التفعيل'),
                     Forms\Components\Textarea::make('filter')->label('طريقة الفلترة على الذكاء الصناعي'),
                     Forms\Components\DatePicker::make('end_date')->label('تاريخ نهاية التقديم / إغلاق الرابط')->required()/*->minDate(now()->addDay())*/,
