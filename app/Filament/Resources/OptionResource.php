@@ -45,7 +45,7 @@ protected static ?string $slug="filter-settings";
         return $form
             ->schema([
                 Forms\Components\Section::make('إعدادات الفلترة')->schema([
-                    Forms\Components\Select::make('job_id')->options(Job::whereNotNull('excel_id')->latest()->pluck('name', 'id'))->label('الوظيفة')->required(),
+                    Forms\Components\Select::make('job_id')->options(Job::whereNull('excel_id')->latest()->pluck('name', 'id'))->label('الوظيفة')->required(),
                     Forms\Components\Textarea::make('criteria')->required()->label('المعايير'),
                     Forms\Components\TextInput::make('employee_count')->required()->numeric()->label('عدد المرشحين المطلوب'),
                 ])
