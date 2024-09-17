@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ChangeFilterSettingEvent;
+use App\Events\ChangeSendEmailSettingEvent;
+use App\Listeners\ChangeFilterSettingListener;
+use App\Listeners\ChangeSendEmailSettingListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ChangeFilterSettingEvent::class => [
+            ChangeFilterSettingListener::class
+        ],
+        ChangeSendEmailSettingEvent::class => [
+            ChangeSendEmailSettingListener::class
+        ]
     ];
 
     /**

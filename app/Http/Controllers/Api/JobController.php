@@ -56,7 +56,17 @@ class JobController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator=\Validator::make($request->all(),[
+            'excel_id'=>'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['status'=>'error','msg'=>$validator->getMessageBag()->first(),]);
+        }
+        $job=Job::findOrFail($id);
+        $job->update(['excel_id'=>$request->excel_id]);
+        return response()->json(['status'=>'success','msg'=>'تم تعديل رقم الملف بنجاح']);
+
     }
 
     /**
