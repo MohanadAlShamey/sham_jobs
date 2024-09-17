@@ -50,8 +50,8 @@ class HomeController extends Controller
                 'area'=>$request->area,
                 'address'=>$request->address,
 
-                'cv'=>$request->hasFile('cv')?$request->file('cv')?->storeAs('job/'.$request->job_id.'/cvs' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}",'public'):null,
-                'certificate'=>$request->hasFile('certificate')?$request->file('certificate')?->storeAs('job/'.$request->job_id.'/certificate' , date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}",'public'):null,
+                'cv'=>$request->hasFile('cv')?$request->file('cv')?->storeAs('job/'.$request->job_id.'/cvs' , date('Y_m_d_h_i')."_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}",'public'):null,
+                'certificate'=>$request->hasFile('certificate')?$request->file('certificate')?->storeAs('job/'.$request->job_id.'/certificate' , date('Y_m_d_h_i')."_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}",'public'):null,
             ]);
             foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date',
                 'area',
@@ -74,7 +74,7 @@ class HomeController extends Controller
                     $extension = $value->getClientOriginalExtension();
 
                     if (in_array($extension, $allowedExtensions)) {
-                        $path = $value->storeAs('job/' . $ask->job_id, date('Y_m_d_h_i')."_{$request->first_name}  {$request->father_name} {$request->last_name}.{$extension}",'public');
+                        $path = $value->storeAs('job/' . $ask->job_id, date('Y_m_d_h_i')."_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$extension}",'public');
                         Answer::create([
                             'answer' => $path,
                             'group_id' => $group->id,
