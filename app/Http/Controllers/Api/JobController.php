@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JobTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\JobResource;
+use App\Models\Group;
 use App\Models\Job;
 use Illuminate\Http\Request;
 
@@ -41,7 +43,12 @@ class JobController extends Controller
     public function show(string $id)
     {
         $job = Job::findOrFail($id);
-        return response()->json(['presents' => GroupResource::collection($job->groups)]);
+        if($job->type==JobTypeEnum::MANAGER->value){
+            $groups=Group::where('job_id',$id)->whereNotNull(['cv','certificate'])->get()->unique('email');
+        }else{
+            $groups=Group::where('job_id',$id)->get()->unique('email');
+        }
+        return response()->json(['presents' => GroupResource::collection($groups)]);
     }
 
     public function getById(string $id)
