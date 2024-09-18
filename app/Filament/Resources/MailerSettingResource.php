@@ -50,7 +50,7 @@ class MailerSettingResource extends Resource
                     Forms\Components\Select::make('work_id')->options(Job::whereNotNull('excel_id')->latest()->pluck('name', 'id'))->label('الوظيفة')->required(),
                     Forms\Components\Textarea::make('accepted_template')->required()->label('قالب بريد القبول'),
                     Forms\Components\Toggle::make('send_accepted')->required()->label('إرسال بريد للمقبولين'),
-                    Forms\Components\DateTimePicker::make('present_date')->label('تاريخ ووقت بداية الحضور للمقابلة'),
+                    Forms\Components\DateTimePicker::make('present_date')->label('تاريخ ووقت بداية الحضور للمقابلة')->required(),
                     Forms\Components\Textarea::make('reject_template')->required()->label('قالب بريد غير المقبولين'),
                     Forms\Components\Toggle::make('send_rejected')->required()->label('إرسال بريد غير المقبولين'),
                     Forms\Components\Textarea::make('footer_template')->label('تذييل الإيميل'),
