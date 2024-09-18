@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GroupResource;
+use App\Http\Resources\JobResource;
 use App\Models\Job;
 use Illuminate\Http\Request;
 
@@ -39,8 +40,14 @@ class JobController extends Controller
      */
     public function show(string $id)
     {
-        $job=Job::findOrFail($id);
-        return response()->json(['presents'=>GroupResource::collection($job->groups)]);
+        $job = Job::findOrFail($id);
+        return response()->json(['presents' => GroupResource::collection($job->groups)]);
+    }
+
+    public function getById(string $id)
+    {
+        $job = Job::findOrFail($id);
+        return response()->json(['job' => new JobResource($job)]);
     }
 
     /**
@@ -56,16 +63,16 @@ class JobController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator=\Validator::make($request->all(),[
-            'excel_id'=>'required',
+        $validator = \Validator::make($request->all(), [
+            'excel_id' => 'required',
         ]);
 
-        if($validator->fails()){
-            return response()->json(['status'=>'error','msg'=>$validator->getMessageBag()->first(),]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'msg' => $validator->getMessageBag()->first(),]);
         }
-        $job=Job::findOrFail($id);
-        $job->update(['excel_id'=>$request->excel_id]);
-        return response()->json(['status'=>'success','msg'=>'تم تعديل رقم الملف بنجاح']);
+        $job = Job::findOrFail($id);
+        $job->update(['excel_id' => $request->excel_id]);
+        return response()->json(['status' => 'success', 'msg' => 'تم تعديل رقم الملف بنجاح']);
 
     }
 

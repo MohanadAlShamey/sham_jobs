@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->middleware([\App\Http\Middleware\ApiAccessMiddleware::class])->group(function(){
     Route::apiResource('jobs',\App\Http\Controllers\Api\JobController::class)->only('index','show','update');
+    Route::get('job-by-id/{id}',[\App\Http\Controllers\Api\JobController::class,'getById']);
     Route::apiResource('presents',\App\Http\Controllers\Api\PresentController::class)->only('show');
     Route::get('filter-options',[\App\Http\Controllers\Api\OptionController::class,'filter']);
     Route::get('mails-options',[\App\Http\Controllers\Api\OptionController::class,'mails']);
