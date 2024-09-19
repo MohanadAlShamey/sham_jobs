@@ -55,6 +55,7 @@ class MailerSettingResource extends Resource
                     Forms\Components\Toggle::make('send_rejected')->required()->label('إرسال بريد غير المقبولين'),
                     Forms\Components\Textarea::make('footer_template')->label('تذييل الإيميل'),
 
+
                 ])
             ]);
     }
