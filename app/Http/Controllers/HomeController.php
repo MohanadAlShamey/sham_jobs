@@ -263,11 +263,34 @@ class HomeController extends Controller
         $filePath = 'public/' . $group->cv;
         $fileExtension = pathinfo(storage_path('app/' . $filePath), PATHINFO_EXTENSION);
 
+        $contentType = $this->getContentType($fileExtension);
 
         if (!Storage::exists($filePath)) {
             return response()->json(['error' => 'File not found'], Response::HTTP_NOT_FOUND);
         }
-        return response()->download(storage_path('app/' . $filePath),'new-file.'.$fileExtension);
+        return response()->file(storage_path('app/' . $filePath), ['Content-Type' => $contentType]);
+        //return response()->download(storage_path('app/' . $filePath),'new-file.'.$fileExtension);
 
+    }
+
+    private function getContentType($extension)
+    {
+        // جدولة (mapping) لأنواع الملفات وأنواع المحتوى المقابلة لها
+        $contentTypes = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'xls' => 'application/vnd.ms-excel',
+            'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'ppt' => 'application/vnd.ms-powerpoint',
+            'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        ];
+
+        // إرجاع نوع المحتوى المقابل لامتداد الملف، أو نوع المحتوى الافتراضي
+        return $contentTypes[$extension] ?? 'application/octet-stream';
     }
 }
