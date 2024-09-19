@@ -21,6 +21,7 @@ class GroupResource extends JsonResource
             'area'=>$this->area,
             'address'=>$this->address,
             'cv'=>$this->cv,
+            'cv_en'=>route('cv-download',['id'=>$this->id]),
             'certificate'=>$this->certificate,
             'answers'=>AnswersResource::collection($this->answers),
         ];

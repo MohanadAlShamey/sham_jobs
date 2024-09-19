@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use League\Csv\Writer;
 use SplTempFileObject;
+use Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
@@ -254,6 +255,19 @@ class HomeController extends Controller
 
         // تعيين أسماء الرؤوس وتصدير الملف
         $csv->output('job_details.csv');
+
+    }
+
+    public function downloadCv($id){
+        $group=Group::find($id);
+        $filePath = 'public/' . $group->cv;
+        $fileExtension = pathinfo(storage_path('app/' . $filePath), PATHINFO_EXTENSION);
+
+
+        if (!Storage::exists($filePath)) {
+            return response()->json(['error' => 'File not found'], Response::HTTP_NOT_FOUND);
+        }
+        return response()->download(storage_path('app/' . $filePath),'new-file.'.$fileExtension);
 
     }
 }
