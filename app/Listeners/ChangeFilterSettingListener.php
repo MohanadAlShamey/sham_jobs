@@ -21,6 +21,13 @@ class ChangeFilterSettingListener
      */
     public function handle(ChangeFilterSettingEvent $event): void
     {
-        info('LISTEN EVENT');
+        try {
+            $response = \Http::get("https://hook.eu2.make.com/2kr49j66ts5wmh54lguhg1ch18g86iiz");
+                if($response->successful()){
+                    \Log::info("Success Filtering : {$response->body()}");
+                }
+        } catch (\Exception $e) {
+            \Log::error("Error Filter : {$e->getMessage()}");
+        }
     }
 }
