@@ -2,9 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\MailerSettingResource;
+use App\Filament\Resources\OptionResource;
+use App\Models\Option;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -53,6 +57,24 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make('الفلترة')
+                    ->url(function () {
+                        $setting = Option::first();
+                        return OptionResource::getUrl('edit', ['record' => $setting->id]);
+                    })
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->group('الإعدادات')
+                    ->sort(3),
+                NavigationItem::make('إعدادات البريد')
+                    ->url(function () {
+                        $setting = Option::first();
+                        return MailerSettingResource::getUrl('edit', ['record' => $setting->id]);
+                    })
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->group('الإعدادات')
+                    ->sort(3),
             ]);
     }
 }
