@@ -48,6 +48,7 @@ class JobResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('اسم الوظيفة'),
+                Tables\Columns\TextColumn::make('code')->label('كود الوظيفة'),
                 Tables\Columns\TextColumn::make('city')->label('المدينة'),
                 Tables\Columns\ToggleColumn::make('active')->label('حالة التفعيل'),
                 Tables\Columns\TextColumn::make('groups_count')->label('عدد المتقدمين'),

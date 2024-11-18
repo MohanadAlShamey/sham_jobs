@@ -90,10 +90,11 @@ protected static ?string $label="متقدم";
                 Tables\Columns\TextColumn::make('last_name')->label('الكنية')->searchable(),
                 Tables\Columns\TextColumn::make('email')->label('بريد المتقدم')->searchable(),
                 Tables\Columns\TextColumn::make('job.name')->label('اسم الوظيفة'),
+                Tables\Columns\TextColumn::make('job.code')->label('اسم الوظيفة'),
                 Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('job_id')->relationship('job','name')->preload()->label('الوظيفة')
+                Tables\Filters\SelectFilter::make('job_id')->options(\DB::table('jobs')->selectRaw('id,CONCAT(name,\'- \',code ) as name')->pluck('name','id'))->label('الوظيفة')
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->button(),

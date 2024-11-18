@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Enums\AskTypeEnum;
 use App\Models\Ask;
+use App\Models\Option;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -503,6 +504,11 @@ class DatabaseSeeder extends Seeder
             'title' => 'إرفاق السيرة الذاتية',
             'type' => AskTypeEnum::FILE->value,
             'required' => true,
+        ]);
+        Option::create([
+            'accepted_template'=>'example',
+            'criteria'=>'example',
+            'footer_template'=>'example',
         ]);
 
     }
