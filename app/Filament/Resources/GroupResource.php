@@ -6,6 +6,7 @@ use App\Enums\AskTypeEnum;
 use App\Filament\Resources\GroupResource\Pages;
 use App\Filament\Resources\GroupResource\RelationManagers;
 use App\Models\Group;
+use App\Models\Job;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Actions;
@@ -39,14 +40,7 @@ protected static ?string $label="متقدم";
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(function ($livewire, $record) {
-                if ($record === null) return [];
-                else {
-                    return [
-                        Forms\Components\TextInput::make('t')
-                    ];
-                }
-            });
+            ->schema([]);
     }
 
     public static function infolist(Infolist $infolist): Infolist
@@ -94,7 +88,7 @@ protected static ?string $label="متقدم";
                 Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('job_id')->options(\DB::table('jobs')->selectRaw('id,CONCAT(name,\'- \',code ) as name')->pluck('name','id'))->label('الوظيفة')
+                Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->label('الوظيفة')
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->button(),
