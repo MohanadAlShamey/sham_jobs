@@ -35,6 +35,11 @@ class JobObServe
         //
     }
 
+    public function deleting(Job $job)
+    {
+        $job->asks()->delete();
+    }
+
     /**
      * Handle the Job "deleted" event.
      */
