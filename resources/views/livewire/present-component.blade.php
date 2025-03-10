@@ -69,10 +69,33 @@
                     @error('cv') <span class="text-danger">{{$message}}</span> @endError
                 </div>
                 @endif
+                @php
+                    $cities=[
+    'دمشق',
+    'حلب',
+    'حمص',
+    'حماه',
+    'دير الزور',
+    'اللاذقية',
+    'طرطوس',
+    'ادلب',
+    'الحسكة',
+    'الرقة',
+    'السويداء',
+    'درعا',
+    'القنيطرة',
+];
+                @endphp
                 <div class="form-group my-4">
-                    <label for="" class="required h6">منطفة السكن
+                    <label for="area" class="required h6">منطفة الإقامة
                         : </label>
-                    <label  for="address-1" class="form-check-label d-block "
+                    <select name="area" id="area" required class="form-input">
+                        <option value="">إختر منطقة الإقامة</option>
+                        @foreach($cities as $city)
+                            <option value="{{$city}}">{{$city}}</option>
+                        @endforeach
+                    </select>
+                    {{--<label  for="address-1" class="form-check-label d-block "
                             dir="rtl">
                         <input id="address-1" type="radio" checked value="منطقة ادلب وريف حلب الغربي"  name='area'>
                         <span class="d-inline-block small">منطقة ادلب وريف حلب الغربي</span>
@@ -105,7 +128,7 @@
                             dir="rtl">
                         <input id="address-6" type="radio"  value=" منطقة درع الفرات"  name='area'>
                         <span class="d-inline-block small"> منطقة درع الفرات</span>
-                    </label>
+                    </label>--}}
                     @error('area') <span class="text-danger">{{$message}}</span> @endError
                 </div>
                 <div class="form-group my-4">
