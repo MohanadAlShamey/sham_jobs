@@ -48,21 +48,21 @@ class HomeController extends Controller
                 'job_name' => $request->job_name,
                 'birth_date' => $request->birth_date,
                 'job_id' => $request->job_id,
-                'area'=>$request->area,
-                'address'=>$request->address,
+                'area' => $request->area,
+                'address' => $request->address,
 
-                'cv'=>$request->hasFile('cv')?$request->file('cv')?->storeAs('job/'.$request->job_id.'/cvs' , date('Y_m_d_h_i')."_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}",'public'):null,
-                'certificate'=>$request->hasFile('certificate')?$request->file('certificate')?->storeAs('job/'.$request->job_id.'/certificate' , date('Y_m_d_h_i')."_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}",'public'):null,
+                'cv' => $request->hasFile('cv') ? $request->file('cv')?->storeAs('job/' . $request->job_id . '/cvs', date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}", 'public') : null,
+                'certificate' => $request->hasFile('certificate') ? $request->file('certificate')?->storeAs('job/' . $request->job_id . '/certificate', date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}", 'public') : null,
             ]);
-            foreach ($request->except(['_token', '_method', 'email','first_name','last_name', 'job_id','father_name','job_name','birth_date',
+            foreach ($request->except(['_token', '_method', 'email', 'first_name', 'last_name', 'job_id', 'father_name', 'job_name', 'birth_date',
                 'area',
-'address',
-'cv',
-'certificate',
-                ]) as $key => $value) {
+                'address',
+                'cv',
+                'certificate',
+            ]) as $key => $value) {
 
                 $ask = Ask::find($key);
-                if ($ask?->required==true && empty($value)) {
+                if ($ask?->required == true && empty($value)) {
                     \DB::rollBack();
                     return back()->withInput()->withErrors([$key => 'الحقل مطلوب']);
                 }
@@ -75,20 +75,18 @@ class HomeController extends Controller
                     $extension = $value->getClientOriginalExtension();
 
                     if (in_array($extension, $allowedExtensions)) {
-                        $path = $value->storeAs('job/' . $ask->job_id, date('Y_m_d_h_i')."_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$extension}",'public');
+                        $path = $value->storeAs('job/' . $ask->job_id, date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$extension}", 'public');
                         Answer::create([
                             'answer' => $path,
                             'group_id' => $group->id,
                             'ask_id' => $key,
                         ]);
-                    }
-                    else {
+                    } else {
                         \DB::rollBack();
 
                         return back()->withErrors([$key => 'نوع الملف غير مسموح به.'])->withInput();
                     }
-                }
-                //
+                } //
                 elseif ($key === 'options') {
                     foreach ($request->options as $subKey => $subVal) {
                         // $ask = Ask::find($subKey);
@@ -98,8 +96,7 @@ class HomeController extends Controller
                             'ask_id' => $subKey,
                         ]);
                     }
-                }
-                //
+                } //
                 else {
                     Answer::create([
                         'answer' => $value,
@@ -112,7 +109,7 @@ class HomeController extends Controller
             return to_route('home.index')->with(['success' => 'تم حفظ طلبك بنجاح']);
         } catch (\Exception | \Error $e) {
             \DB::rollBack();
-            return back()->with(['error' => 'خطأ في الإرسال ' . $e->getMessage().'-'.$e->getLine()])->withInput();
+            return back()->with(['error' => 'خطأ في الإرسال ' . $e->getMessage() . '-' . $e->getLine()])->withInput();
         }
 
     }
@@ -122,9 +119,9 @@ class HomeController extends Controller
      */
     public function show(string $id)
     {
-        $job = Job::where(['id'=>$id,'active' => true])->where('end_date','>=',now()->startOfDay())->first();
-        if(!$job){
-            abort(404,'Not Found Job');
+        $job = Job::where(['id' => $id, 'active' => true])->where('end_date', '>=', now()->startOfDay())->first();
+        if (!$job) {
+            abort(404, 'Not Found Job');
         }
 
         return view('show', compact('job'));
@@ -157,9 +154,9 @@ class HomeController extends Controller
 
     public function downloadResumes($id)
     {
-        $job=Job::find($id);
+        $job = Job::find($id);
         // تحديد مسار المجلد الذي يحتوي على الملفات
-        $directory = storage_path('app/public/job/' .$id);
+        $directory = storage_path('app/public/job/' . $id);
 
         // التحقق من وجود المجلد
         if (!file_exists($directory)) {
@@ -167,7 +164,7 @@ class HomeController extends Controller
         }
 
         // إنشاء ملف مؤقت لتضمين جميع الملفات في ملف واحد
-        $zipFileName =  $job?->name.'_'.$id.'_'.date('y_m_d_h_i'). '.zip';
+        $zipFileName = $job?->name . '_' . $id . '_' . date('y_m_d_h_i') . '.zip';
         $zipFilePath = storage_path("app/public/{$zipFileName}");
 
         // إنشاء ملف ZIP
@@ -258,8 +255,9 @@ class HomeController extends Controller
 
     }
 
-    public function downloadCv($id){
-        $group=Group::find($id);
+    public function downloadCv($id)
+    {
+        $group = Group::find($id);
         $filePath = 'public/' . $group->cv;
         $fileExtension = pathinfo(storage_path('app/' . $filePath), PATHINFO_EXTENSION);
 
