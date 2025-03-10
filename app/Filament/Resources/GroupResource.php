@@ -88,7 +88,7 @@ protected static ?string $label="متقدم";
                 Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->label('الوظيفة')
+                Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->label('الوظيفة')->searchable()
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->button(),
