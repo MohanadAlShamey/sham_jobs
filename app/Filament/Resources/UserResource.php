@@ -26,7 +26,7 @@ class UserResource extends Resource
                 Forms\Components\Section::make('المستخدمين')->schema([
                     Forms\Components\TextInput::make('name')->label('الاسم')->required(),
                     Forms\Components\TextInput::make('email')->label('البريد الإلكتروني')->email()->required(),
-                    Forms\Components\TextInput::make('password')->label('كلمة المرور')->revealable()->minLength(8)->required(),
+                    Forms\Components\TextInput::make('password')->label('كلمة المرور')->password()->revealable()->minLength(8)->required(),
 
                 ])
             ]);
