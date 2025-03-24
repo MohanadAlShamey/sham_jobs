@@ -14,12 +14,21 @@ class GroupExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('email')->label('البريد'),
-            ExportColumn::make('first_name')->label('name'),
-            ExportColumn::make('father_name')->label('name'),
-            ExportColumn::make('last_name')->label('name'),
-            ExportColumn::make('address')->label('name'),
-            ExportColumn::make('area')->label('name'),
+            ExportColumn::make('id')
+                ->label('ID'),
+            ExportColumn::make('job_id'),
+            ExportColumn::make('email'),
+            ExportColumn::make('job_name'),
+            ExportColumn::make('first_name'),
+            ExportColumn::make('father_name'),
+            ExportColumn::make('last_name'),
+            ExportColumn::make('birth_date'),
+            ExportColumn::make('created_at'),
+            ExportColumn::make('updated_at'),
+            ExportColumn::make('certificate'),
+            ExportColumn::make('cv'),
+            ExportColumn::make('area'),
+            ExportColumn::make('address'),
         ];
     }
 
