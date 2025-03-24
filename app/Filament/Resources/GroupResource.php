@@ -78,6 +78,7 @@ protected static ?string $label="متقدم";
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn($query)=>$query->latest())
             ->columns([
                 Tables\Columns\TextColumn::make('first_name')->label('الاسم الأول')->searchable(),
                 Tables\Columns\TextColumn::make('father_name')->label('اسم الاب')->searchable(),
