@@ -89,10 +89,12 @@ protected static ?string $label="متقدم";
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->multiple()->label('الوظيفة')->searchable()
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->button(),
 //                Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ExportAction::make('export'),
             Tables\Actions\Action::make('cv')->url(fn($record)=>asset('storage/'.$record->cv),true)->label('السيرة الذاتية')->button(),
             Tables\Actions\Action::make('cert')->url(fn($record)=>asset('storage/'.$record->certificate),true)->label('الشهادة العلمية')->button(),
                 Tables\Actions\ViewAction::make()->button(),
