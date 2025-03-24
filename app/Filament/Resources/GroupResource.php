@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AskTypeEnum;
+use App\Filament\Exports\GroupExporter;
 use App\Filament\Resources\GroupResource\Pages;
 use App\Filament\Resources\GroupResource\RelationManagers;
 use App\Models\Group;
@@ -95,7 +96,7 @@ protected static ?string $label="متقدم";
             ->actions([
                 Tables\Actions\EditAction::make()->button(),
 //                Tables\Actions\DeleteAction::make(),
-            Tables\Actions\ExportAction::make('export'),
+            Tables\Actions\ExportAction::make('export')->exporter(GroupExporter::class),
             Tables\Actions\Action::make('cv')->url(fn($record)=>asset('storage/'.$record->cv),true)->label('السيرة الذاتية')->button(),
             Tables\Actions\Action::make('cert')->url(fn($record)=>asset('storage/'.$record->certificate),true)->label('الشهادة العلمية')->button(),
                 Tables\Actions\ViewAction::make()->button(),
