@@ -40,7 +40,7 @@ class HomeController extends Controller
     {
         \DB::beginTransaction();
         try {
-            $group = Group::create([
+            $groupData = [
                 'email' => $request->email,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -51,9 +51,32 @@ class HomeController extends Controller
                 'area' => $request->area,
                 'address' => $request->address,
 
-                'cv' => $request->hasFile('cv') ? $request->file('cv')?->storeAs('job/' . $request->job_id . '/cvs', date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}", 'public') : null,
-                'certificate' => $request->hasFile('certificate') ? $request->file('certificate')?->storeAs('job/' . $request->job_id . '/certificate', date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}", 'public') : null,
-            ]);
+//                'cv' => $request->hasFile('cv') ? $request->file('cv')?->storeAs('job/' . $request->job_id . '/cvs', date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('cv')?->getClientOriginalExtension()}", 'public') : null,
+//                'certificate' => $request->hasFile('certificate') ? $request->file('certificate')?->storeAs('job/' . $request->job_id . '/certificate', date('Y_m_d_h_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}.{$request->file('certificate')?->getClientOriginalExtension()}", 'public') : null,
+            ];
+            if ($request->hasFile('cv')) {
+                $cvPath = $request->file('cv')?->storeAs(
+                    "job/{$request->job_id}/cvs",
+                    now()->format('Y_m_d_H_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}." . $request->file('cv')->getClientOriginalExtension(),
+                    'public'
+                );
+                if ($cvPath) {
+                    $groupData['cv'] = $cvPath;
+                }
+            }
+            if ($request->hasFile('certificate')) {
+                $certificatePath = $request->file('certificate')?->storeAs(
+                    "job/{$request->job_id}/certificate",
+                    now()->format('Y_m_d_H_i') . "_{$request->first_name}_{$request->father_name}_{$request->last_name}." . $request->file('certificate')->getClientOriginalExtension(),
+                    'public'
+                );
+
+// حفظ المسار في قاعدة البيانات (اختياري)
+                if ($certificatePath) {
+                    $groupData['certificate']=$certificatePath;
+                }
+            }
+            $group = Group::create($groupData);
             foreach ($request->except(['_token', '_method', 'email', 'first_name', 'last_name', 'job_id', 'father_name', 'job_name', 'birth_date',
                 'area',
                 'address',
