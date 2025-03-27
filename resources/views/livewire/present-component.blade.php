@@ -56,7 +56,7 @@
                 <div class="form-group my-4">
                     <label for="" class="required h6">الشهادة العلمية
                         : </label>
-                    <input type="file" accept="file|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpg,image/jpeg,application/pdf"  required class="form-control  @error('certificate') is-invalid @endError"
+                    <input type="file" accept=".doc,.docx,.png,.jpg,.jpeg,.pdf"  required class="form-control  @error('certificate') is-invalid @endError"
                            name='certificate' value="{{old('certificate')}}">
                     @error('certificate') <span class="text-danger">{{$message}}</span> @endError
                 </div>
@@ -64,7 +64,7 @@
                 <div class="form-group my-4">
                     <label for="" class="required h6">السيرة الذاتية
                         : </label>
-                    <input type="file" accept="file|mimetypes:application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpg,image/jpeg,application/pdf"  required class="form-control  @error('cv') is-invalid @endError"
+                    <input type="file" accept=".doc,.docx,.png,.jpg,.jpeg,.pdf"  required class="form-control  @error('cv') is-invalid @endError"
                            name='cv' value="{{old('cv')}}">
                     @error('cv') <span class="text-danger">{{$message}}</span> @endError
                 </div>
