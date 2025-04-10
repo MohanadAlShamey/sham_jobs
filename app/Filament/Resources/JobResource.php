@@ -62,6 +62,8 @@ class JobResource extends Resource
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\Action::make('export')->url(fn($record)=>route('export-id',$record->id))->label('تصدير المتقدمين '),
+
                     Tables\Actions\Action::make('download')
                         ->url(fn($record) => $record ? route('download-resumes', $record->id) : '#', true)
                         ->label('تحميل جميع المرفقات'),
@@ -69,7 +71,6 @@ class JobResource extends Resource
 
 
                 ]),
-                Tables\Actions\Action::make('export')->url(fn($record)=>route('export-id',$record->id))->label('تصدير المتقدمين ')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
