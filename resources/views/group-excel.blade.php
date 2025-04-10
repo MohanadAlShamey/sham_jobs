@@ -28,8 +28,11 @@
             <td>{{$group->email}}</td>
             <td>{{$group->area}}</td>
             <td>{{$group->address}}</td>
-            @foreach($group->answers()->orderBy('ask_id')->get() as $answer)
-                <td>{{$answer->answer}}</td>
+            @foreach($job->asks()->orderBy('id')->get() as $ask)
+               @php
+                   $answer=\App\Models\Answer::where(['ask_id'=>$ask->id,'group_id' => $group->id])->first();
+               @endphp
+                <td>{{$answer?->answer}}</td>
             @endforeach
         </tr>
     @endforeach
