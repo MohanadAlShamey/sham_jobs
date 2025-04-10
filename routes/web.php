@@ -18,4 +18,7 @@ Route::get('/',[\App\Http\Controllers\HomeController::class,'index']);
 Route::get('/resume/{id}',[\App\Http\Controllers\HomeController::class,'downloadResumes'])->middleware('auth:web')->name('download-resumes');
 Route::get('/export/{id}',[\App\Http\Controllers\HomeController::class,'exportCsv'])->middleware('auth:web')->name('csv-export');
 Route::get('/download/cv/{id}',[\App\Http\Controllers\HomeController::class,'downloadCv'])->name('cv-download');
-
+Route::get('/export/{id}',function ($id){
+   $job=\App\Models\Job::find($id);
+   return view('group-excel',compact('job'));
+});
