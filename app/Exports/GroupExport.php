@@ -3,15 +3,23 @@
 namespace App\Exports;
 
 use App\Models\Group;
+use App\Models\Job;
+use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class GroupExport implements FromCollection
+class GroupExport implements FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+public $id;
+public function __construct($id)
+{
+    $this->id=$id;
+}
+
+    public function view(): View
     {
-        return Group::all();
+        return view('group-excel', [
+            'job' => Job::find($this->id),
+        ]);
     }
 }
