@@ -16,7 +16,7 @@
         <td>email</td>
         <td>area</td>
         <td>address</td>
-        <td>city</td>
+
         @foreach($job->asks()->orderBy('id')->get() as $ask)
             <td>{{$ask->title}}</td>
         @endforeach
