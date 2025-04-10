@@ -28,7 +28,7 @@
             <td>{{$group->email}}</td>
             <td>{{$group->area}}</td>
             <td>{{$group->address}}</td>
-            @foreach($group->answers()->orderBy('ask_id')->get() as $answers)
+            @foreach($group->answers()->orderBy('ask_id')->get() as $answer)
                 <td>{{$answer->answer}}</td>
             @endforeach
         </tr>
