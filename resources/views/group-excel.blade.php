@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<table>
+<table border="1" width="100%">
 
     <tr>
         <td>first name</td>
