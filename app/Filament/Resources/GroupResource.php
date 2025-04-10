@@ -91,7 +91,7 @@ protected static ?string $label="متقدم";
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->multiple()->label('الوظيفة')->searchable(),
-                Tables\Filters\SelectFilter::make('area')->options(Group::select('area')->distinct()->pluck('area'))->multiple()->label('الوظيفة')->searchable()
+                Tables\Filters\SelectFilter::make('area')->options(Group::select('area')->distinct()->pluck('area','area'))->multiple()->label('الوظيفة')->searchable()
 
             ])->headerActions([
 
