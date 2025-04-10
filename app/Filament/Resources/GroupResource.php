@@ -90,7 +90,8 @@ protected static ?string $label="متقدم";
                 Tables\Columns\TextColumn::make('created_at')->since()->label('تاريخ التقديم')->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->multiple()->label('الوظيفة')->searchable()
+                Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->multiple()->label('الوظيفة')->searchable(),
+                Tables\Filters\SelectFilter::make('area')->options(Group::select('area')->distinct()->pluck('area'))->multiple()->label('الوظيفة')->searchable()
 
             ])->headerActions([
 
