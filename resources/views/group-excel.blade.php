@@ -24,8 +24,9 @@
             <td>{{$ask->title}}</td>
         @endforeach
     </tr>
-    @foreach($job->groups as $group)
+    @foreach($job->groups as $i=>$group)
         <tr>
+            <td>{{$i+1}}</td>
             <td>{{$group->first_name}}</td>
             <td>{{$group->last_name}}</td>
             <td>{{$group->father_name}}</td>
