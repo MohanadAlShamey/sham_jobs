@@ -11,11 +11,14 @@
 <table border="1" width="100%">
 
     <tr>
-        <td>first name</td>
-        <td>last name</td>
-        <td>email</td>
-        <td>area</td>
-        <td>address</td>
+        <td>الاسم الاول</td>
+        <td>الاسم الأخير</td>
+        <td>اسم الأب</td>
+        <td>البريد</td>
+        <td>مكان السكن</td>
+        <td>العنوان</td>
+        <td>تاريخ الميلاد</td>
+        <td>الوظيفة</td>
 
         @foreach($job->asks()->orderBy('id')->get() as $ask)
             <td>{{$ask->title}}</td>
@@ -25,9 +28,12 @@
         <tr>
             <td>{{$group->first_name}}</td>
             <td>{{$group->last_name}}</td>
+            <td>{{$group->father_name}}</td>
             <td>{{$group->email}}</td>
             <td>{{$group->area}}</td>
             <td>{{$group->address}}</td>
+            <td>{{$group->birth_date}}</td>
+            <td>{{$group->job_name}}</td>
             @foreach($job->asks()->orderBy('id')->get() as $ask)
                @php
                    $answer=\App\Models\Answer::where(['ask_id'=>$ask->id,'group_id' => $group->id])->first();
