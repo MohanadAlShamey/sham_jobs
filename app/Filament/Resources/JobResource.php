@@ -68,7 +68,8 @@ class JobResource extends Resource
 
 
 
-                ])
+                ]),
+                Tables\Actions\Action::make('export')->url(fn($record)=>route('export-id',$record->id))->label('تصدير المتقدمين ')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

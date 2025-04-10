@@ -93,7 +93,7 @@ protected static ?string $label="متقدم";
                 Tables\Filters\SelectFilter::make('job_id')->options(Job::select('id','code','name')->get()->mapWithKeys(fn($record)=>[$record->id=> $record->name.' - '.$record->code]))->multiple()->label('الوظيفة')->searchable()
 
             ])->headerActions([
-                Tables\Actions\ExportAction::make('groups')->exporter(GroupExporter::class)
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->button(),
