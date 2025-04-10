@@ -67,9 +67,7 @@ class JobResource extends Resource
                         ->label('تحميل جميع المرفقات'),
 
 
-                    Tables\Actions\Action::make('export')
-                        ->url(fn($record) => $record ? route('csv-export', $record->id) : '#', true)
-                        ->label('تصدير إلى CSV'),
+
                 ])
             ])
             ->bulkActions([
