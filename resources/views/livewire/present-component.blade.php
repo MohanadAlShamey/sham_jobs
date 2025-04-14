@@ -54,7 +54,7 @@
 
 
                 <div class="form-group my-4">
-                    <label for="" class="required h6">الشهادة العلمية
+                    <label for="" class=" h6">الشهادة العلمية
                         : </label>
                     <input type="file" accept=".doc,.docx,.png,.jpg,.jpeg,.pdf"  required class="form-control  @error('certificate') is-invalid @endError"
                            name='certificate' value="{{old('certificate')}}">
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-group my-4">
-                    <label for="" class="required h6">السيرة الذاتية
+                    <label for="" class=" h6">السيرة الذاتية
                         : </label>
                     <input type="file" accept=".doc,.docx,.png,.jpg,.jpeg,.pdf"  required class="form-control  @error('cv') is-invalid @endError"
                            name='cv' value="{{old('cv')}}">
